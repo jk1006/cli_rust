@@ -30,16 +30,15 @@ fn print_lines_of_file(content: Box<dyn BufRead>, number_lines: bool, number_non
         let mut result = "".to_string();
         let line_content = line.unwrap();
         if number_lines { 
-            result = format!("\t{}\t", line_count);
+            println!("{:>6}\t{}", line_count, line_content);
         }
         if (number_nonblank_lines && !line_content.is_empty()) {
-            result = format!("\t{}\t", line_count);
+            println!("{:>6}\t{}", line_count, line_content);
         } else if (number_nonblank_lines && line_content.is_empty()) {
             line_count -= 1;
+            println!();
         }
         line_count += 1;
-        result += &line_content;
-        println!("{}", result);
 
     }
 }
@@ -53,6 +52,7 @@ pub fn get_args() -> MyResult<Config> {
         .arg(
             Arg::with_name("number_lines")
             .short("n")
+            .long("number")
             .help("Show line numbers")
             .takes_value(false)
         )
